@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TakeHome</string>
+    <string name="title_people">People</string>
+    <string name="title_planets">Planets</string>
+    <string name="title_starships">Starships</string>
+
+    <string name="error_people_not_found">People collection is empty!</string>
+</resources>
