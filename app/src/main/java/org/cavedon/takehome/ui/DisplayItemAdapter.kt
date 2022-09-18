@@ -21,7 +21,7 @@ class DisplayItemAdapter :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = DisplayItemViewHolder(
-        ViewDisplayItemBinding.inflate(LayoutInflater.from(parent.context))
+        ViewDisplayItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
     override fun onBindViewHolder(holder: DisplayItemViewHolder, position: Int) {

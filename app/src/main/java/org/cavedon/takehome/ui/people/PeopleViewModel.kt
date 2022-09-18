@@ -8,17 +8,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.cavedon.takehome.R
 import org.cavedon.takehome.dependency.DependencyManager
-import org.cavedon.takehome.repository.PeopleRepository
-import org.cavedon.takehome.repository.PeopleRepositoryResponse
+import org.cavedon.takehome.network.PeopleService
 
 
 class PeopleViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return PeopleViewModel(DependencyManager.peopleRepository) as T
+        return PeopleViewModel(DependencyManager.peopleService) as T
     }
 }
 
-class PeopleViewModel(private val peopleRepository: PeopleRepository) : ViewModel() {
+class PeopleViewModel(private val peopleService: PeopleService) : ViewModel() {
 
     private val _peopleCollectionFlow = MutableStateFlow<PeopleViewState?>(null)
     val peopleCollectionFlow: Flow<PeopleViewState?>
@@ -28,14 +27,16 @@ class PeopleViewModel(private val peopleRepository: PeopleRepository) : ViewMode
         _peopleCollectionFlow.value = PeopleViewState.Loading
 
         viewModelScope.launch {
-            _peopleCollectionFlow.value =
-                when (val repositoryResponse = peopleRepository.getPeopleCollection()) {
-                    is PeopleRepositoryResponse.Success -> PeopleViewState.Success(
-                        repositoryResponse.peopleCollection.map { PeopleDisplayItem(it) }
+            peopleService.getPeopleCollection()
+                .onSuccess { successResponse ->
+                    _peopleCollectionFlow.value = PeopleViewState.Success(
+                        successResponse.results.map { PeopleDisplayItem(it) }
                     )
-                    is PeopleRepositoryResponse.Error -> PeopleViewState.Error(
+                }
+                .onFailure { error ->
+                    _peopleCollectionFlow.value = PeopleViewState.Error(
                         errorMessageResId = R.string.error_people_not_found,
-                        additionalInfo = repositoryResponse.errorMessage
+                        additionalInfo = error.message
                     )
                 }
         }

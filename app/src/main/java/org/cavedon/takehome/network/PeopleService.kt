@@ -1,10 +1,10 @@
 package org.cavedon.takehome.network
 
-import retrofit2.Response
+import org.cavedon.takehome.model.People
 import retrofit2.http.GET
 
 interface PeopleService {
 
     @GET("people/")
-    suspend fun getPeopleCollection(): Response<PeopleCollectionApiResponse>
+    suspend fun getPeopleCollection(): Result<CollectionApiResponse<People>>
 }

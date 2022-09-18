@@ -5,4 +5,5 @@
     <string name="title_starships">Starships</string>
 
     <string name="error_people_not_found">People collection is empty!</string>
+    <string name="error_starship_not_found">Starship collection is empty!</string>
 </resources>
