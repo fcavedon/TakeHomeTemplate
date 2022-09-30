@@ -1,8 +1,8 @@
 package org.cavedon.takehome.dependency
 
 import org.cavedon.takehome.network.PeopleService
-import org.cavedon.takehome.network.calladapter.ResultCallAdapterFactory
 import org.cavedon.takehome.network.StarshipService
+import org.cavedon.takehome.network.calladapter.ResultCallAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -16,6 +16,6 @@ object DependencyManager {
             .build()
     }
 
-    val peopleService by lazy { retrofit.create(PeopleService::class.java) }
-    val starshipService by lazy { retrofit.create(StarshipService::class.java) }
+    val peopleService: PeopleService by lazy { retrofit.create(PeopleService::class.java) }
+    val starshipService: StarshipService by lazy { retrofit.create(StarshipService::class.java) }
 }
